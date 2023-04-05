@@ -77,15 +77,17 @@ test_data = math_test_cuts.merge(
     ela_test_cuts,
     on=["district", "grade", "year", "category"],
     suffixes=("_math", "_ela"),
+    how="inner",
 )
 test_data.to_csv("Data/Processed/merged_ela_math_test_data.csv", index=False)
 
 # Merge attendance data with test data.
 attendance_test_data = attendance_cuts.merge(
-    test_data, on=["district", "grade", "year", "category"]
+    test_data, on=["district", "grade", "year", "category"], how="inner"
 )
 
 # Save merged attendance and test data.
+# Note that this will only have 2018, 2019, and 2022 data.
 attendance_test_data.to_csv(
     "Data/Processed/merged_attendance_test_data.csv", index=False
 )
