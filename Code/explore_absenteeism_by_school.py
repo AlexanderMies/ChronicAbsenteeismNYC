@@ -78,6 +78,7 @@ for i in range(4):
     axs[i // 2, i % 2].set_xticks([2018, 2019, 2020, 2021, 2022])
     axs[i // 2, i % 2].set_xlabel("Year")
     axs[i // 2, i % 2].set_ylim(75, 95)
+
 plt.tight_layout()
 plt.savefig(
     "Output/attendance_time_series/top_district_movers_subplots.png",
