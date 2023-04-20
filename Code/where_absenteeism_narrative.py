@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
-from statsmodels.stats.outliers_influence import summary_table
 
 OUTDIR = "Output/correlation_narrative/"
 
@@ -98,30 +97,27 @@ def quick_plot(
                         dummy_val = data[~data[hue].str.contains(">")][
                             hue
                         ].iloc[0]
-                    X_new = pd.DataFrame({x: x_col, hue: dummy_val})
-                    preds, _, ci_lower, ci_upper = summary_table(
-                        model, X_new, alpha=0.05
+                    return model.predict(
+                        pd.DataFrame({x: x_col, hue: dummy_val})
                     )
-                    return preds[:, 0], ci_lower[:, 0], ci_upper[:, 0]
 
                 x_vals = np.linspace(
                     data[x].min(), data[x].max(), data.shape[0]
                 )
 
                 # Add regression line for dummy var = 0.
-                pred, ci_lower, ci_upper = predict(add_lines_model, x_vals, 0)
-                # plt.plot(
-                #     x_vals,
-                #     predict(add_lines_model, x_vals, 0),
-                #     color=sns.color_palette()[0],
-                # )
+                plt.plot(
+                    x_vals,
+                    predict(add_lines_model, x_vals, 0),
+                    color=sns.color_palette()[0],
+                )
 
-                # # Add regression line for dummy var = 1.
-                # plt.plot(
-                #     x_vals,
-                #     predict(add_lines_model, x_vals, 1),
-                #     color=sns.color_palette()[1],
-                # )
+                # Add regression line for dummy var = 1.
+                plt.plot(
+                    x_vals,
+                    predict(add_lines_model, x_vals, 1),
+                    color=sns.color_palette()[1],
+                )
 
         # Set one standard figure size.
         # plt.gcf().set_size_inches(8, 6)
@@ -164,7 +160,6 @@ quick_plot(
 smf.ols(
     "pct_level_3and4_math ~ pct_attendance", data=df
 ).fit().summary()  # 4.2 pct points of students in top half of math for every 1 pct point increase in attendance.
-
 quick_plot(
     "pct_attendance",
     "pct_level_3and4_math",
@@ -179,23 +174,37 @@ quick_plot(
 ############
 # Section 2: Score vs Attendance, with dummy vars
 ############
-
-
 # Plot with only dummy var difference.
-model = smf.ols(
-    "pct_level_3and4_math ~ pct_attendance + is_black_hispanic", data=df
-).fit()
-quick_plot(
-    "pct_attendance",
-    "pct_level_3and4_math",
-    xlab="Pct Attendance",
-    ylab="Pct Students Top Half Math",
-    filename=OUTDIR + "attendance_vs_math_is_black_hispanic_custom_reg.png",
-    hue="is_black_hispanic",
-    reg=False,
-    ylim=(0, 80),
-    add_lines_model=model,
-)
+for split_var in [
+    "is_black_hispanic",
+    "is_poverty",
+    "high_chronic_absenteeism",
+]:
+    model = smf.ols(
+        "pct_level_3and4_math ~ pct_attendance + {}".format(split_var), data=df
+    ).fit()
+
+    # Print the model equation nicely.
+    print("Model equation for", split_var, "is:")
+    print(
+        "score ~ {} + {} * attendance + {} * {}".format(
+            *model.params, split_var
+        )
+    )
+    print(model.summary())
+
+    quick_plot(
+        "pct_attendance",
+        "pct_level_3and4_math",
+        xlab="Pct Attendance",
+        ylab="Pct Students Top Half Math",
+        filename=OUTDIR
+        + "attendance_vs_math_{}_custom_reg.png".format(split_var),
+        hue=split_var,
+        reg=False,
+        ylim=(0, 80),
+        add_lines_model=model,
+    )
 
 
 variables = [
@@ -217,3 +226,91 @@ for variable, suffix in zip(variables, suffixes):
             filename=OUTDIR
             + f"attendance_vs_math_{variable}_regplot={reg}.png",
         )
+
+############
+# Section 3: Score vs Attendance, with dummy vars and interaction terms
+############
+
+
+def map_binary_text(s):
+    return int(">" in s)
+
+
+# The lmplots take care of plotting the regressions, so we just need to get the model equations.
+for split_var in [
+    "is_black_hispanic",
+    "is_poverty",
+    "high_chronic_absenteeism",
+]:
+    temp_df = df.copy()
+    temp_df[split_var] = temp_df[split_var].apply(map_binary_text)
+    model = smf.ols(
+        "pct_level_3and4_math ~ pct_attendance + {} + pct_attendance * {}".format(
+            split_var, split_var
+        ),
+        data=temp_df,
+    ).fit()
+
+    # Print the model equation nicely.
+    print("Model equation for", split_var, "is:")
+    print(
+        "score ~ {} + {} * attendance + {} * {} + {} * attendance * {}".format(
+            *model.params, split_var, split_var
+        )
+    )
+    print(model.summary())
+
+############
+# Section 4: Does year play a role?
+############
+
+# Not going to use the quick_plot() function b/c three groups makes it a bit more complicated.
+
+# First do scatterplot.
+with sns.axes_style("darkgrid"):
+    plt.figure(figsize=(8, 6))
+    sns.scatterplot(
+        x="pct_attendance",
+        y="pct_level_3and4_math",
+        hue="year",
+        data=df,
+        palette="Set1",
+    )
+    plt.xlabel("Pct Attendance")
+    plt.ylabel("Pct Students Top Half Math")
+    plt.title("Pct Attendance vs Pct Students Top Half Math")
+
+    # Remove the legend title.
+    handles, labels = plt.gca().get_legend_handles_labels()
+    plt.gca().legend(handles=handles[0:], labels=labels[0:])
+
+    plt.tight_layout()
+    plt.savefig(OUTDIR + "attendance_vs_math_year_scatter.png")
+    plt.close()
+    # plt.show()
+
+# Then do regression.
+with sns.axes_style("darkgrid"):
+    # plt.figure(figsize=(8, 6))
+    sns.lmplot(
+        x="pct_attendance",
+        y="pct_level_3and4_math",
+        hue="year",
+        data=df,
+        palette="Set1",
+        height=6,
+        aspect=1.33,
+        legend=False,
+    )
+    plt.xlabel("Pct Attendance")
+    plt.ylabel("Pct Students Top Half Math")
+    plt.title("Pct Attendance vs Pct Students Top Half Math")
+
+    # Remove the legend title.
+    handles, labels = plt.gca().get_legend_handles_labels()
+    plt.gca().legend(handles=handles[0:], labels=labels[0:])
+
+    plt.tight_layout()
+    plt.savefig(OUTDIR + "attendance_vs_math_year_reg.png")
+    plt.close()
+    # plt.show()
