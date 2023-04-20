@@ -19,6 +19,7 @@ def clean_col_name(col_name):
 
 
 # Load in raw demographic data by district.
+# Source: https://infohub.nyced.org/reports/school-quality/information-and-data-overview
 raw_demographics = pd.read_excel(
     "Data/Raw/demographic-snapshot-2017-18-to-2021-22.xlsx",
     sheet_name="District",
