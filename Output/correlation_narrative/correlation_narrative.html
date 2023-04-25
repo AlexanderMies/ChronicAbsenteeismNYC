@@ -13,6 +13,10 @@
             padding: 2rem;
         }
 
+        #bottom_text_area {
+            color: white;
+        }
+
         h1,
         h2,
         h3 {
@@ -396,19 +400,21 @@
     <button onclick="switchImage3()" id="btn3">Show Regressions</button>
 
     <br>
-    <h2>Although Absenteeism is Up, the Relationship Persists Over Time</h2>
-    Up until now, we've been looking at data from 2018, 2019, and 2022. The test was redesigned in 2018,
-    and in 2020 and 2021 the test was either not administered or not mandatory because of the pandemic.
+    <div id="bottom_text_area">
+        <h2>Although Absenteeism is Up, the Relationship Persists Over Time</h2>
+        Up until now, we've been looking at data from 2018, 2019, and 2022. The test was redesigned in 2018,
+        and in 2020 and 2021 the test was either not administered or not mandatory because of the pandemic.
+        <br>
+        To see if these findings would be different if we looked at the data by year, we can repeat the above analysis,
+        but grouping the data points by year instead of demographic category.
+        <br>
+        Even though it's clear that absenteeism increased after the pandemic relative to 2018 and 2019 (as shown by
+        the 2022 line's placement further left), the relationship between attendance and test scores seems unchanged
+        (as shown by the strength of the correlation in each group). Note that because the dependent variable is the
+        share of a district's students placing in the top half, this graph does not help with conclusions about whether
+        or not overall student test performance is up or down since the start of the pandemic.
+    </div>
     <br>
-    To see if these findings would be different if we looked at the data by year, we can repeat the above analysis,
-    but grouping the data points by year instead of demographic category.
-    <br>
-    Even though it's clear that absenteeism increased after the pandemic relative to 2018 and 2019 (as shown by
-    the 2022 line's placement further left), the relationship between attendance and test scores seems unchanged
-    (as shown by the strength of the correlation in each group). Note that because the dependent variable is the
-    share of a district's students placing in the top half, this graph does not help with conclusions about whether
-    or not overall student test performance is up or down since the start of the pandemic.
-
     <div>
         <img src="attendance_vs_math_year_scatter.png" alt="A description of the image" id="scatterplot4" />
         <img src="attendance_vs_math_year_reg.png" alt="A description of the image" id="regression4"
