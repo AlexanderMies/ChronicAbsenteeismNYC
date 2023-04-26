@@ -20,11 +20,11 @@
         h1,
         h2,
         h3 {
-            color: #ffffff;
+            color: white;
         }
 
         p {
-            color: #ffffff;
+            color: white;
             line-height: 1.6;
         }
 
@@ -169,19 +169,19 @@
             const scatterplotImage = document.getElementById('scatterplot4');
             const regressionImage = document.getElementById('regression4');
             const switchButton = document.getElementById('btn4');
-            // const reg_text = document.getElementById('reg_text1');
+            const reg_text = document.getElementById('reg_text4');
 
 
             if (scatterplotImage.style.display === 'none') {
                 scatterplotImage.style.display = 'block';
                 regressionImage.style.display = 'none';
                 switchButton.textContent = 'Show Regression';
-                // reg_text.style.display = 'none';
+                reg_text.style.display = 'none';
             } else {
                 scatterplotImage.style.display = 'none';
                 regressionImage.style.display = 'block';
                 switchButton.textContent = 'Hide Regression';
-                // reg_text.style.display = 'block';
+                reg_text.style.display = 'block';
             }
         }
     </script>
@@ -192,12 +192,24 @@
     <h1>NYC Public Schools Absenteeism and its Impact on Test Scores and Demographics</h1>
 
     <p>
-        [Introduction: Briefly introduce the issue of absenteeism in NYC public schools, its impact on student
-        performance, and its connection to demographic disparities.]
+        When discussing absenteeism, particularly in a time frame where so much has changed, it's natural to ask
+        whether or not it's a relatively large problem and should be treated urgently. When looking at metrics like
+        test scores, there are many potential causes covid-related and otherwise that could have an effect.
+        <br>
+        Here, we explore the relationship between absenteeism and relative test score performance. We present the same
+        scatterplot from a variety of perspectives to see what we can learn about the relationship between absenteeism
+        and test scores. Each point on the scatter plot is a district in a year (2018, 2019, or 2022-so each district
+        has
+        three points on the plot). On the vertical axis, we have the percentage of students in the district who scored a
+        3 or a 4 on the math test (i.e. finished in the top half of students city-wide). On the horizontal axis, we have
+        the district's attendance rate for the year.
+        <br>
+        While a simple regression analysis is insufficient to determine causality, it's a useful tool towards
+        understanding
+        correlations and thinking about how different groups may be unequally affected by absenteeism.
+
+
     </p>
-    <p>
-        Can add heatmap here?
-    </p> -->
 
     <h2>Absenteeism Does Not Help Test Scores</h2>
 
@@ -295,11 +307,11 @@
         <br>
         The estimated regressions are:
         <br>
-        \[\widehat{score} = -174 + 2.3 * attendance - 17.8 * black\_hispanic \]
+        \[\widehat{score} = -156 + 2.3 * attendance - 17.8 * black\_hispanic \]
         <br>
-        \[\widehat{score} = -234 + 3.0 * attendance - 14.8 * poverty \]
+        \[\widehat{score} = -219 + 3.0 * attendance - 14.8 * poverty \]
         <br>
-        \[\widehat{score} = -319 + 4.0 * attendance - 1.1 * chronic\_absenteeism \]
+        \[\widehat{score} = -318 + 4.0 * attendance - 1.1 * chronic\_absenteeism \]
         <br>
         and we can think of each regression as creating two lines, one for each group. The lines are
         parallel, which means each group is forced to have the same relationship between attendance and score,
@@ -380,7 +392,7 @@
         <br>
         \[\widehat{score} = -190 + 2.64 * attendance + 44.4 * black\_hispanic - 0.69 * attendance * black\_hispanic \]
         <br>
-        \[\widehat{score} = -214 + 2.90 * attendance - 24.3 * poverty + .11 * attendance * black\_hispanic \]
+        \[\widehat{score} = -214 + 2.90 * attendance - 24.3 * poverty + .11 * attendance * poverty \]
         <br>
         \[\widehat{score} = -547 + 6.47 * attendance + 327 * chronic\_absenteeism - 3.6 * attendance *
         chronic\_absenteeism \]
@@ -420,6 +432,30 @@
         <img src="attendance_vs_math_year_reg.png" alt="A description of the image" id="regression4"
             style="display:none;" />
     </div>
+
+    <p id="reg_text4" style="display:none;">
+        Doing a simple regression by year, we find similar slope coefficients on attendance in each year. This
+        suggests there is little evidence that the relationship between attendance and test scores for a district
+        has changed, but absenteeism has increased since the pandemic. Furthermore, if the increase in absenteeism
+        is more pronounced in districts in certain demographics, we would expect to see those districts fall behind
+        their peers in score performance.
+
+        <br>
+        For 2018, the regression is:
+        <br>
+        \[\widehat{score} = -465 + 5.55 * attendance \]
+
+        <br>
+        For 2019, the regression is:
+        <br>
+        \[\widehat{score} = -453 + 5.45 * attendance \]
+
+        <br>
+        For 2022, the regression is:
+        <br>
+        \[\widehat{score} = -447 + 5.50 * attendance \]
+
+    </p>
 
     <button onclick="switchImage4()" id="btn4">Show Regression</button>
 
