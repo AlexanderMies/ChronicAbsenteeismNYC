@@ -284,6 +284,8 @@ with sns.axes_style("darkgrid"):
     handles, labels = plt.gca().get_legend_handles_labels()
     plt.gca().legend(handles=handles[0:], labels=labels[0:])
 
+    plt.ylim([0, 80])
+
     plt.tight_layout()
     plt.savefig(OUTDIR + "attendance_vs_math_year_scatter.png")
     plt.close()
@@ -310,7 +312,101 @@ with sns.axes_style("darkgrid"):
     handles, labels = plt.gca().get_legend_handles_labels()
     plt.gca().legend(handles=handles[0:], labels=labels[0:])
 
+    plt.ylim([0, 80])
+
     plt.tight_layout()
     plt.savefig(OUTDIR + "attendance_vs_math_year_reg.png")
     plt.close()
     # plt.show()
+
+
+######
+# Double Check Regression Equations
+######
+
+# score ~ attendance
+model = smf.ols("pct_level_3and4_math ~ pct_attendance", data=df).fit()
+print("Model equation for score ~ attendance is:")
+print("score ~ {} + {} * attendance".format(*model.params))
+
+# score ~ attendance + is_black_hispanic
+df["black_hispanic_binary"] = df.is_black_hispanic.apply(
+    map_binary_text
+).where(df.is_black_hispanic.notnull(), np.nan)
+model = smf.ols(
+    "pct_level_3and4_math ~ pct_attendance + black_hispanic_binary", data=df
+).fit()
+print("Model equation for score ~ attendance + is_black_hispanic is:")
+print(model.summary())
+
+# score ~ attendance + is_poverty
+df["poverty_binary"] = df.is_poverty.apply(map_binary_text).where(
+    df.is_poverty.notnull(), np.nan
+)
+model = smf.ols(
+    "pct_level_3and4_math ~ pct_attendance + poverty_binary", data=df
+).fit()
+print("Model equation for score ~ attendance + is_poverty is:")
+print(model.summary())
+
+# score ~ attendance + high_chronic_absenteeism
+df["chronic_absenteeism_binary"] = df.high_chronic_absenteeism.apply(
+    map_binary_text
+).where(df.high_chronic_absenteeism.notnull(), np.nan)
+model = smf.ols(
+    "pct_level_3and4_math ~ pct_attendance + chronic_absenteeism_binary",
+    data=df,
+).fit()
+print("Model equation for score ~ attendance + high_chronic_absenteeism is:")
+print(model.summary())
+
+# score ~ attendance + is_black_hispanic + attendance * is_black_hispanic
+model = smf.ols(
+    "pct_level_3and4_math ~ pct_attendance + black_hispanic_binary + pct_attendance * black_hispanic_binary",
+    data=df,
+).fit()
+print(
+    "Model equation for score ~ attendance + is_black_hispanic + attendance * is_black_hispanic is:"
+)
+print(model.summary())
+
+# score ~ attendance + is_poverty + attendance * is_poverty
+model = smf.ols(
+    "pct_level_3and4_math ~ pct_attendance + poverty_binary + pct_attendance * poverty_binary",
+    data=df,
+).fit()
+print(
+    "Model equation for score ~ attendance + is_poverty + attendance * is_poverty is:"
+)
+print(model.summary())
+
+# score ~ attendance + high_chronic_absenteeism + attendance * high_chronic_absenteeism
+model = smf.ols(
+    "pct_level_3and4_math ~ pct_attendance + chronic_absenteeism_binary + pct_attendance * chronic_absenteeism_binary",
+    data=df,
+).fit()
+print(
+    "Model equation for score ~ attendance + high_chronic_absenteeism + attendance * high_chronic_absenteeism is:"
+)
+print(model.summary())
+
+# score ~ attendance in 2018
+model = smf.ols(
+    "pct_level_3and4_math ~ pct_attendance", data=df.loc[df.year == 2018]
+).fit()
+print("Model equation for score ~ attendance in 2018 is:")
+print(model.summary())
+
+# score ~ attendance in 2019
+model = smf.ols(
+    "pct_level_3and4_math ~ pct_attendance", data=df.loc[df.year == 2019]
+).fit()
+print("Model equation for score ~ attendance in 2019 is:")
+print(model.summary())
+
+# score ~ attendance in 2022
+model = smf.ols(
+    "pct_level_3and4_math ~ pct_attendance", data=df.loc[df.year == 2022]
+).fit()
+print("Model equation for score ~ attendance in 2022 is:")
+print(model.summary())
