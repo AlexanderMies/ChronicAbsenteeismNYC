@@ -282,7 +282,7 @@
     <button onclick="switchImage4()" id="btn4">Show Regression</button>
 
 
-    <h2>Attendance Rate and Test Scores are Correlated with Other Variables</h2>
+    <h2>The Relationship Between Attendance Rate and Test Scores Persists Across Different Demographics</h2>
 
     <p>
         <!-- [Section 2: Analyze the relationship between absenteeism and test scores, using data to support your findings.] -->
@@ -332,14 +332,10 @@
     </div>
 
     <p id="reg_text2" style="display:none;">
-        From regression analysis, we can see that districts with a higher percentage of Black and Hispanic students and 
-        students in poverty tended to have a smaller percentage of students scoring a 3 or 4 on
-        the exam.
-        In addition, districts with a higher percentage of chronically absent students tended score consistently with the predicted 
-        score from attendance rate, <em>after controlling for the district's overall attendance</em>.
-        <br>
-        To see this in the data, we can plot the relationship between score and attendance, giving each group
-        it's own intercept term. Plotted above, we estimate the following model for each group:
+        In our regression analysis, we control for the demographic variables to see if the relationship between 
+        attendance rate and test scores still holds.  
+        To do so, we can retain the same linear model as before and add a third term to account for the demographic variable. 
+        We estimate the following model for each group:
         <br>
         \[score = \beta_0 + \beta_1 * attendance + \beta_2 * demographic\_variable \]
         <br>
@@ -351,21 +347,22 @@
         <br>
         \[\widehat{score} = -318 + 4.0 * attendance - 1.1 * chronic\_absenteeism \]
         <br>
-        and we can think of each regression as creating two lines, one for each group. The lines are
-        parallel, which means each group is forced to have the same relationship between attendance and score,
-        but the intercepts are different, allowing for a different starting point.
+        
+        The blue lines in the plot represents the regression of the group of students that don't fall within the specific demographic, 
+        and the orange lines in the plot represent the group of students that fall within the demographic. 
         <br>
-        there are are some differences in the significance of the correlation 
-        between these demographic variables and attendance rate and test scores. 
-        The variables <em>black_hispanic</em> and <em>poverty</em> are statistically significant,
-        while the variable <em>chronic_absenteeism</em> is not. 
+        From these regressions, we can see that districts with a higher percentage of Black and Hispanic students and 
+        students in poverty tended to have a smaller percentage of students scoring a 3 or 4 on
+        the exam.
+        In addition, districts with a higher percentage of chronically absent students tended score consistently with the predicted 
+        score from attendance rate. 
     </p>
 
     <button onclick="switchImage2()" id="btn2">Show Regressions</button>
 
 
     <br>
-    <h2>The Relationship Between Attendance Rate and Test Scores is Moderated by Different Demographci Variabless</h2>
+    <h2>The Relationship Between Attendance Rate and Test Scores is Moderated by Demographic Variabless</h2>
 
     <!-- <p>
         [Section 3: Explore the demographic disparities related to absenteeism, such as differences among race, gender,
@@ -373,11 +370,8 @@
     </p> -->
 
     <p>
-        Despite the fact that both absenteeism and test scores are correlated with other variables, the relationship
-        between absenteeism and test scores is consistent across groups.
-        <br>
-        Controlling for a certain group (i.e. districts with a higher rate of poverty) does not seem to change this
-        relationship, suggesting that a higher attendance rate is correlated with higher student test scores.
+        While the relationship betwen attendance rate and test scores persists across different demographic groups, 
+        the demographic variables seem to play a moderating role. 
     </p>
 
     <div class="container" id="scatterplot3">
@@ -409,16 +403,9 @@
     </div>
 
     <p id="reg_text3" style="display:none;">
-        In these regressions, we allow each group to not only have its own intercept, but also its own slope. In
-        other words, each group can have a different starting point, and the relationship between attendance and
-        score can be different for each group.
-        <br>
-        We can see the difference in strength of relationship by adding an interaction term between attendance and
-        the demographic variable. For one group (the group whose value of the demographic variable is 0), the slope
-        (relationship between attendance and score) is simply \(\beta_1\). For the other group (the group whose value
-        of the demographic variable is 1), the slope is \(\beta_1 + \beta_3\). The difference between the two
-        slopes is \(\beta_3\), and this coefficient's significance tells us whether or not the relationship between
-        attendance and score is different for the two groups.
+        In these regressions, we look at the relationship between attendance rate and test scores while taking 
+        the demographic variable into consideration. To do so, we add a third term that accounts for the combined effect of attendance rate 
+        and the demographic variable.   
         <br>
         In short, we estimate the following model for each group:
         <br>
@@ -434,16 +421,13 @@
         \[\widehat{score} = -547 + 6.47 * attendance + 327 * chronic\_absenteeism - 3.6 * attendance *
         chronic\_absenteeism \]
         <br>
-        In these regressions, the coefficients on the binary demographic variables and the interactions terms
-        all lose their statistical significance (by including the variable in two terms it's harder for each
-        to be significant and for a more thorough analysis we would need to analyze joint significance), except
-        for the two terms associated with <em>chronic_absenteeism</em>. This is most clearly seen by the difference
-        in slopes in the right-most figure. The steeper slope among districts with relatively low chronic absenteeism
-        suggests that each percentage point of attendance correlates more strongly with test scores among districts with
-        higher attendance rates. In other words, if you consider a district with initially high attendance that begins
-        to slip,
-        the first few percentage points lost are most costly than the later ones when the issue has become larger.
-
+        In these regressions, we can see that there is a difference in strength of relationship by adding an interaction term between attendance and
+        the demographic variable.  
+        In particular, by looking at the terms associated with chronic absenteeism, we can see that for
+        districts with a higher percent of chronically absent students, the effect of increased attendance is less pronounced. 
+        This means that other factors may be affecting the poor test scores. This is most clearly seen by the difference
+        in slopes in the right-most figure. The steeper slope among districts with a low % of chronically absent students
+        suggests that the relationship between attendance rate and test scores is stronger among districts without chronic absenteeism.
     </p>
 
     <button onclick="switchImage3()" id="btn3">Show Regressions</button>
