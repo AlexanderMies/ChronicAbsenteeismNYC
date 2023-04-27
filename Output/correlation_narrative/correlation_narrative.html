@@ -193,7 +193,7 @@
 
     <p>
         When discussing absenteeism, particularly in a time frame where so much has changed, it's natural to ask
-        whether or not it's a relatively large problem and should be treated urgently. When looking at metrics like
+        if it's a top priority. When looking at metrics like
         test scores, there are many potential causes covid-related and otherwise that could have an effect.
         <br>
         Here, we explore the relationship between absenteeism and relative test score performance. We present the same
@@ -247,6 +247,59 @@
 
     <button onclick="switchImage1()" id="btn1">Show Regression</button>
 
+    <!-- <div id="bottom_text_area"> -->
+    <div>
+        <h2>Although Absenteeism is Up, the Relationship Persists Over Time</h2>
+        When looking at data across time, it's a good idea to see if time might be a confounder.
+        Since our dependent variable is percentage of students in the top half, the variable should be relatively immune
+        to shocks like the Covid pandemic.
+        Pandemic or not, there will always be a top half of students, but the relationship between attendance and test
+        scores could change.
+        Our data spans 2018, 2019, and 2022. The test was redesigned in 2018,
+        and in 2020 and 2021 the test was either not administered or not mandatory because of the pandemic.
+        <br>
+        To see if these findings would be different if we looked at the data by year, we can take a look at the
+        scatterplot, grouping
+        the data points by year.
+        Even though it's clear that absenteeism increased after the pandemic relative to 2018 and 2019 (as shown by
+        the 2022 green points being further left), the relationship between attendance and test scores seems unchanged
+        (as shown by the strength of the correlation in each group). Note that because the dependent variable is the
+        share of a district's students placing in the top half, this graph does not help with conclusions about whether
+        or not overall student test performance is up or down since the start of the pandemic.
+    </div>
+    <br>
+    <div>
+        <img src="attendance_vs_math_year_scatter.png" alt="A description of the image" id="scatterplot4" />
+        <img src="attendance_vs_math_year_reg.png" alt="A description of the image" id="regression4"
+            style="display:none;" />
+    </div>
+
+    <p id="reg_text4" style="display:none;">
+        Doing a simple regression by year, we find similar slope coefficients on attendance in each year. This
+        suggests there is little evidence that the relationship between attendance and test scores for a district
+        has changed, but absenteeism has increased since the pandemic. Furthermore, if the increase in absenteeism
+        is more pronounced in districts in certain demographics, we would expect to see those districts fall behind
+        their peers in score performance.
+
+        <br>
+        For 2018, the regression is:
+        <br>
+        \[\widehat{score} = -465 + 5.55 * attendance \]
+
+        <br>
+        For 2019, the regression is:
+        <br>
+        \[\widehat{score} = -453 + 5.45 * attendance \]
+
+        <br>
+        For 2022, the regression is:
+        <br>
+        \[\widehat{score} = -447 + 5.50 * attendance \]
+
+    </p>
+
+    <button onclick="switchImage4()" id="btn4">Show Regression</button>
+
 
     <h2>Absenteeism is Correlated to Other Variables that Predict Hardship</h2>
 
@@ -259,6 +312,18 @@
         Absenteeism is not a problem that affects all groups equally. It appears to be correlated to other variables
         that tend to predict systemic mistreatment, such as belonging to certain minority groups, lower income groups,
         and (unsurprisingly) chronic absenteeism.
+        <br>
+        Here, we group the points (still in the same scatterplot) by different demographic variables. The correlation
+        between
+        these demographic variables and either absenteeism or test score performance is apparent based on the lower
+        values of
+        each axis tending to take on a single color. The graphs below show the relationship between test scores and each
+        demographic variable,
+        accounting for attendance.
+        <br>
+        <br>
+        Note: The cutoffs for each demographic variable were chosen as the median value for each variable across
+        districts and years.
     </p>
     <div class="container" id="scatterplot2">
         <div class="image-container">
@@ -412,52 +477,7 @@
     <button onclick="switchImage3()" id="btn3">Show Regressions</button>
 
     <br>
-    <div id="bottom_text_area">
-        <h2>Although Absenteeism is Up, the Relationship Persists Over Time</h2>
-        Up until now, we've been looking at data from 2018, 2019, and 2022. The test was redesigned in 2018,
-        and in 2020 and 2021 the test was either not administered or not mandatory because of the pandemic.
-        <br>
-        To see if these findings would be different if we looked at the data by year, we can repeat the above analysis,
-        but grouping the data points by year instead of demographic category.
-        <br>
-        Even though it's clear that absenteeism increased after the pandemic relative to 2018 and 2019 (as shown by
-        the 2022 line's placement further left), the relationship between attendance and test scores seems unchanged
-        (as shown by the strength of the correlation in each group). Note that because the dependent variable is the
-        share of a district's students placing in the top half, this graph does not help with conclusions about whether
-        or not overall student test performance is up or down since the start of the pandemic.
-    </div>
-    <br>
-    <div>
-        <img src="attendance_vs_math_year_scatter.png" alt="A description of the image" id="scatterplot4" />
-        <img src="attendance_vs_math_year_reg.png" alt="A description of the image" id="regression4"
-            style="display:none;" />
-    </div>
 
-    <p id="reg_text4" style="display:none;">
-        Doing a simple regression by year, we find similar slope coefficients on attendance in each year. This
-        suggests there is little evidence that the relationship between attendance and test scores for a district
-        has changed, but absenteeism has increased since the pandemic. Furthermore, if the increase in absenteeism
-        is more pronounced in districts in certain demographics, we would expect to see those districts fall behind
-        their peers in score performance.
-
-        <br>
-        For 2018, the regression is:
-        <br>
-        \[\widehat{score} = -465 + 5.55 * attendance \]
-
-        <br>
-        For 2019, the regression is:
-        <br>
-        \[\widehat{score} = -453 + 5.45 * attendance \]
-
-        <br>
-        For 2022, the regression is:
-        <br>
-        \[\widehat{score} = -447 + 5.50 * attendance \]
-
-    </p>
-
-    <button onclick="switchImage4()" id="btn4">Show Regression</button>
 
 
 
