@@ -143,6 +143,16 @@ def quick_plot(
         plt.close()
 
 
+# Checking chronically absent vs level 3 and 4 math.
+# quick_plot(
+#     "pct_chronically_absent",
+#     "pct_level_3and4_math",
+#     xlab="Pct Attendance",
+#     ylab="Pct Students Top Half Math",
+#     # filename=OUTDIR + "attendance_vs_math_all.png",
+#     ylim=(0, 80),
+# )
+
 ############
 # Section 1: Score vs Attendance
 ############
@@ -223,6 +233,7 @@ for variable, suffix in zip(variables, suffixes):
             ylab="Pct Students Top Half Math",
             hue=variable,
             reg=reg,
+            ylim=(0, 80),
             filename=OUTDIR
             + f"attendance_vs_math_{variable}_regplot={reg}.png",
         )
