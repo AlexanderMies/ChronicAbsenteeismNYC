@@ -187,17 +187,75 @@
 			<section>
 				<div class="content">
 					<div class="inner">
-						<h2>Write Up</h2>
-						<p>1. "Federal Assistance: How the Mayor Plans to Use Billions in Covid-Related Aid for
-							Schools".
-							New York City Independent Budget Office, Fiscal Brief, September 2021.
-							<br>
-							2. Haley, L., & Shapiro, E. (2021, September 13). New York City Schools Reopen for Full
-							In-Person Learning. The New York Times.
-							<br>
-							3. Veiga, Christina. (18 Jan. 2022). "NYC mayoral candidates Adams and Banks promise a
-							remote learning option if elected." Chalkbeat New York.
+						<h1>Write Up</h1>
+						<h2>Introduction</h2>
+						<p>The COVID-19 pandemic has had a significant impact on the NYC public education system. In
+							particular, absenteeism (or decreased attendance) has increased in all districts since 2020.
+							In this project, we explore if this issue has impacted different areas and groups in New
+							York, as well as see how absenteeism affects other variables like academic performance.
+							Through interactive data visualizations, we examine heterogeneity in absenteeism across
+							racial and socioeconomic groups and present a convincing (and statistically significant)
+							negative effect of absenteeism on test score performance in NYC public schools.</p>
+						<h2>Related Work</h2>
+						<p>Previous research has established that attendance is critical to strong academic performance.
+							Also, it was also well-documented in 2020 and 2021 that racial minorities and lower-income
+							New Yorkers were hit hardest by the COVID pandemic across a variety of metrics. Our project
+							builds on these findings through a simple but compelling narrative that ties absenteeism to
+							test performance.</p>
+						<h2>Methodology</h2>
+						<p>We use data from the New York City Department of Education, which includes attendance rates,
+							test scores, poverty rates, and racial/ethnic composition for each school district between
+							2018 and 2022. We use data from 2018 onwards to focus on the window before and after the
+							COVID pandemic, and to only include data that is easily comparable across time (the
+							standardized tests were last redesigned in 2018).
+							To convey the main issue at hand–widespread increasing absenteeism–we created an interactive
+							choropleth map of NYC. This visual shows an across-the-board increase in absenteeism and
+							also hints at unequal effects.
+							To emphasize the importance of increasing absenteeism, we explore the relationship between
+							attendance and test score performance. We run through a simple linear regression analysis to
+							test different components of this relationship, including different effects by demographic
+							group. We are cautious about causal claims, but the strong correlations in this section are
+							clear–absenteeism is associated with lower test scores. By using the same underlying
+							scatterplot in each visual on this page, we hope to reduce the cognitive load needed to
+							remember the data, and save the reader’s mental power for understanding the problem.
 						</p>
+						<h2>Design</h2>
+						<p>Our first visualization is an interactive choropleth map of NYC. Created with bokeh, the
+							visual shows which districts (represented by darker shading) have faced larger increases in
+							absenteeism from 2018 to 2022. Users can hover over the map to see more statistics, like the
+							district’s rate of poverty or ethnic composition.
+							The second visualization page of scatterplots and regressions, created using seaborn,
+							depicts the relationship between test score performance (vertical axis) and attendance rate
+							(horizontal axis). The same scatterplot is shown with different groupings (e.g. color
+							relates to poverty or color relates to ethnic groups) to rigorously test the relationship
+							between scores and attendance. In each subsection, a "Show Regressions" button adds
+							regression lines to the same image and provides more curious readers with additional
+							quantitative context.
+							These visualizations are packaged and displayed in a simple website layout that encourages a
+							sequential view but does not restrict readers that want to jump around. We present
+							visualizations on individual pages to allow readers to digest one arc at a time, within the
+							broader narrative of attendance harming public school students.
+						</p>
+						<h2>Discussion</h2>
+						<p>Our final product demonstrates unequal changes in absenteeism across New York and the
+							relationship between attendance and test scores. Users found the interactive elements
+							engaging and informative, particularly appreciating the ability to manipulate the scatter
+							plots and regression lines. Some users, however, suggested that certain components, like
+							viewing the relationship over time, could be shown more clearly through a chronological
+							animation, which we implemented via a gif that adds regression lines by year for the
+							intertemporal analysis. We also received some feedback that the additional information with
+							the regressions was somewhat overwhelming, so we made that text more concise and put the
+							“Show/Hide Regressions” button in place (as opposed to moving beyond the extra text), so
+							that readers could more easily switch between the two modes. </p>
+						<h2>Future Work</h2>
+						<p>To expand our project, we would explore additional data sources to include factors like
+							school resources, teacher qualifications, and parental involvement. We would also be
+							interested to test our findings and see if they hold up under a microdata-driven analysis,
+							as opposed to merely at the district level. Another area we’d like to explore is the effect
+							of access to public transport on absenteeism and academic achievement.</p>
+						<h2>Acknowledgements</h2>
+						<p>We would like to thank our TAs, professor, and classmates for their invaluable feedback
+							throughout the development of this project.</p>
 					</div>
 				</div>
 			</section>
